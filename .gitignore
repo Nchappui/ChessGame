@@ -22,6 +22,7 @@ logs
 *.private.meta
 ^*.private.[0-9]+$
 ^*.private.[0-9]+.meta$
+.plastic
 .vs
 .vscode
 .idea
