@@ -1,55 +1,65 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class ChessPiece : MonoBehaviour
+public class PawnPiece : MonoBehaviour
 {
     private bool hasMoved = false; // Flag to check if the piece has moved
-    public bool facingNorth = true; // Flag to check if the piece is facing north
+    private bool facingNorth;// Flag to check if the piece is facing north
 
     private Case currentCase; // Reference to the Case component of the current square
 
+    private GameState gameState;
+
+    private List<Case> availableMoves = new List<Case>(); // Array to hold the available moves for the piece
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // Perform a raycast to find the square the piece is on
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit ray))
-        {
-            currentCase = ray.collider.gameObject.GetComponent<Case>(); // Get the Case component from the square
-        }
-        currentCase.currentPiece = gameObject; // Set the current piece on the square
-        currentCase.isOccupied = true; // Mark the square as occupied
+        gameState = FindAnyObjectByType<GameState>().GetComponent<GameState>();
+        facingNorth = GetComponent<ChessPiece>().team == ChessPiece.Team.White; // Check if the piece is facing north based on its team
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
+
     }
 
     void OnMouseDown()
     {
-        // Check if the piece is on a square
-        if (currentCase != null)
-        {   
-            if (facingNorth){
-                if (!currentCase.N.isOccupied)
-                {
-                    currentCase.N.GetComponent<Renderer>().material.color = Color.green; // Highlight the north square
-                    if (!hasMoved){
-                       currentCase.N.N.GetComponent<Renderer>().material.color = Color.green; // Highlight the north square 
-                    }
-                }
-            }
-            else
+        gameState.SelectPiece(this.gameObject);
+        currentCase = GetComponent<ChessPiece>().getCurrentCase(); // Get the current case from the ChessPiece component
+        availableMoves.Clear(); // Clear the list of available moves
+        if (facingNorth)
+        {
+            if (!currentCase.N.isOccupied)
             {
-                if (!currentCase.S.isOccupied)
+                availableMoves.Add(currentCase.N); // Highlight the north square
+                if (!hasMoved)
                 {
-                    currentCase.S.GetComponent<Renderer>().material.color = Color.green; // Highlight the south square
-                    if (!hasMoved){
-                       currentCase.S.S.GetComponent<Renderer>().material.color = Color.green; // Highlight the south square 
-                    }
+                    availableMoves.Add(currentCase.N.N); // Highlight the north square
                 }
             }
-
         }
+        else
+        {
+            if (!currentCase.S.isOccupied)
+            {
+                availableMoves.Add(currentCase.S);// Highlight the south square
+                if (!hasMoved)
+                {
+                    availableMoves.Add(currentCase.S.S); // Highlight the south square
+                }
+            }
+        }
+        this.gameObject.GetComponent<ChessPiece>().selectPiece(availableMoves);
+    }
+    
+    public void setMovedToTrue()
+    {
+        hasMoved = true; // Set the hasMoved flag to true
     }
 }
 

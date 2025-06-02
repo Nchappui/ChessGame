@@ -9,6 +9,8 @@ public class Case : MonoBehaviour
 
     public bool isOccupied = false; // Flag to check if the case is occupied
     public GameObject currentPiece; // The piece currently occupying the case
+
+    private GameState gameState;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,12 +30,22 @@ public class Case : MonoBehaviour
         {
             W = ray4.collider.gameObject.GetComponent<Case>();
         }
-        
+
+        gameState = FindAnyObjectByType<GameState>().GetComponent<GameState>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    void OnMouseDown()
+    {
+        if (transform.GetChild(0).gameObject.activeSelf)
+        {
+            gameState.MovePiece(this.transform);
+            //transform.GetChild(0).gameObject.SetActive(false); // Disable the highlight on the case
+        }
     }
 }
