@@ -13,8 +13,6 @@ public class PawnPiece : MonoBehaviour
 
     private List<Case> availableMoves = new List<Case>(); // Array to hold the available moves for the piece
     private List<GameObject> attackablePieces = new List<GameObject>();
-
-    public GameObject queenPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

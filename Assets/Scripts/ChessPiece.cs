@@ -25,9 +25,14 @@ public class ChessPiece : MonoBehaviour
         }
         currentCase.currentPiece = gameObject; // Set the current piece on the square
         currentCase.isOccupied = true; // Mark the square as occupied
-
+    }
+    void Start(){
         if (team == Team.Black){
             this.GetComponent<Renderer>().material.SetColor("_BaseColor", Color.black);
+            if (GetComponent<KnightPiece>() != null)
+            {
+                transform.GetChild(0).GetComponent<Renderer>().material.SetColor("_BaseColor", Color.black);
+            }
         }
     }
 
@@ -86,28 +91,11 @@ public class ChessPiece : MonoBehaviour
         if (gameObject.GetComponent<PawnPiece>() != null)
         {
             gameObject.GetComponent<PawnPiece>().setMovedToTrue(); // Set the hasMoved flag to true for PawnPiece
-            if (gameObject.GetComponent<PawnPiece>().getFacingNorth() && !currentCase.N)
+            if (gameObject.GetComponent<PawnPiece>().getFacingNorth() && !currentCase.N || (!gameObject.GetComponent<PawnPiece>().getFacingNorth() && !currentCase.S))
             {
-                GameObject queenToSpawn = gameObject.GetComponent<PawnPiece>().queenPrefab;
-                gameObject.SetActive(false);
-                Destroy(gameObject);
-                Instantiate(
-                    queenToSpawn,
-                    currentCase.transform.position + new Vector3(0f, 0.7f, 0f),
-                    Quaternion.Euler(0f, 180f, 0f));
+                UIUtils UIutils = FindAnyObjectByType<UIUtils>().GetComponent<UIUtils>();
+                UIutils.SetPawnToBePromoted(gameObject); // Set the pawn to be promoted in the UI
             }
-            if (!gameObject.GetComponent<PawnPiece>().getFacingNorth() && !currentCase.S)
-            {
-                GameObject queenToSpawn = gameObject.GetComponent<PawnPiece>().queenPrefab;
-                queenToSpawn.GetComponent<ChessPiece>().team = team; // Set the team of the queen prefab to match the pawn's team
-                gameObject.SetActive(false);
-                Destroy(gameObject);
-                Instantiate(
-                    queenToSpawn,
-                    currentCase.transform.position + new Vector3(0f, 0.7f, 0f),
-                    Quaternion.Euler(0f, 0f, 0f));
-            }
-            
         }
     }
 
