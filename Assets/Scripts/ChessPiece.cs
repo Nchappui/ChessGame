@@ -25,6 +25,10 @@ public class ChessPiece : MonoBehaviour
         }
         currentCase.currentPiece = gameObject; // Set the current piece on the square
         currentCase.isOccupied = true; // Mark the square as occupied
+
+        if (team == Team.Black){
+            this.GetComponent<Renderer>().material.SetColor("_BaseColor", Color.black);
+        }
     }
 
     // Update is called once per frame

@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameState : MonoBehaviour
 {
     private GameObject currentlySelectedPiece = null;
+    private bool isWhiteTurn = true; // Flag to check if it's white's turn
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,6 +25,20 @@ public class GameState : MonoBehaviour
 
     public void SelectPiece(GameObject piece, List<Case> availableMoves, List<GameObject> attackablePieces)
     {
+        if (piece.GetComponent<Outline>().OutlineColor == Color.red)
+            {
+                // If the piece is attackable, move it
+
+                //HANDLE SCORE HERE
+                MovePiece(piece.GetComponent<ChessPiece>().getCurrentCase().transform);
+                Destroy(piece.gameObject);
+                return;
+            }
+        if (piece.GetComponent<ChessPiece>().team == ChessPiece.Team.Black && isWhiteTurn || 
+        piece.GetComponent<ChessPiece>().team == ChessPiece.Team.White && !isWhiteTurn)
+        {
+            return; // If it's white's turn and the piece is black, do nothing
+        }
         if (currentlySelectedPiece == null)
         {
             currentlySelectedPiece = piece;
@@ -34,20 +49,9 @@ public class GameState : MonoBehaviour
         }
         else
         {
-            if (piece.GetComponent<Outline>().OutlineColor == Color.red)
-            {
-                // If the piece is attackable, move it
-
-                //HANDLE SCORE HERE
-                MovePiece(piece.GetComponent<ChessPiece>().getCurrentCase().transform);
-                Destroy(piece.gameObject);
-                return;
-            }
-            else
-            {
+  
             currentlySelectedPiece.GetComponent<ChessPiece>().deselectPiece();
             currentlySelectedPiece = piece;
-            }
             
         }
         
@@ -70,6 +74,7 @@ public class GameState : MonoBehaviour
             currentlySelectedPiece.GetComponent<ChessPiece>().setNewCase();
             currentlySelectedPiece.GetComponent<ChessPiece>().deselectPiece();
             currentlySelectedPiece = null;
+            isWhiteTurn = !isWhiteTurn; // Switch turns after a move
         }
     }
 }
