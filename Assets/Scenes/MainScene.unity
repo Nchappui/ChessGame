@@ -1289,6 +1289,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pawn
       objectReference: {fileID: 0}
+    - target: {fileID: 1975619981473870984, guid: d396751e9976cce4ea1b99061494864e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8668717814297122982, guid: d396751e9976cce4ea1b99061494864e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.45162
