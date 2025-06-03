@@ -30,8 +30,10 @@ public class GameState : MonoBehaviour
                 // If the piece is attackable, move it
 
                 //HANDLE SCORE HERE
-                MovePiece(piece.GetComponent<ChessPiece>().getCurrentCase().transform);
+
+                piece.gameObject.SetActive(false);
                 Destroy(piece.gameObject);
+                MovePiece(piece.GetComponent<ChessPiece>().getCurrentCase().transform);
                 return;
             }
         if (piece.GetComponent<ChessPiece>().team == ChessPiece.Team.Black && isWhiteTurn || 
