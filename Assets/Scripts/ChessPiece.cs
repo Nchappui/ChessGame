@@ -6,6 +6,7 @@ public class ChessPiece : MonoBehaviour
 {
     private Case currentCase; // Reference to the Case component of the current square
     private List<Case> availableMoves = new List<Case>(); // Array to hold the available moves for the piece
+    private List<GameObject> attackablePieces = new List<GameObject>(); // Array to hold the pieces that can be attacked
 
     public enum Team
     {
@@ -33,18 +34,33 @@ public class ChessPiece : MonoBehaviour
 
     }
 
-    public void selectPiece(List<Case> availableMoves)
+    public void selectPiece(List<Case> availableMoves, List<GameObject> attackablePieces)
     {
+        this.attackablePieces = attackablePieces; // Store the list of attackable pieces
+        foreach (GameObject piece in attackablePieces)
+        {
+            piece.GetComponent<Outline>().enabled = true; // Enable the outline for attackable pieces
+            piece.GetComponent<Outline>().OutlineColor = Color.red; // Set the outline color to red for attackable pieces
+        }
+    
+    
         this.availableMoves = availableMoves;
         foreach (Case move in availableMoves)
         {
             move.transform.GetChild(0).gameObject.SetActive(true); // Enable the highlight on the available moves
         }
-
+        this.gameObject.GetComponent<Outline>().enabled = true;
     }
+    
 
     public void deselectPiece()
     {
+        foreach (GameObject piece in attackablePieces)
+        {
+            piece.GetComponent<Outline>().enabled = false; // Disable the outline for attackable pieces
+            piece.GetComponent<Outline>().OutlineColor = Color.green;
+        }
+        attackablePieces.Clear(); // Clear the list of attackable pieces
         foreach (Case move in availableMoves)
         {
             move.transform.GetChild(0).gameObject.SetActive(false); // Disable the highlight on the available moves

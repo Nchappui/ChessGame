@@ -12,6 +12,7 @@ public class PawnPiece : MonoBehaviour
     private GameState gameState;
 
     private List<Case> availableMoves = new List<Case>(); // Array to hold the available moves for the piece
+    private List<GameObject> attackablePieces = new List<GameObject>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,13 +28,12 @@ public class PawnPiece : MonoBehaviour
 
     }
 
-    void OnMouseDown()
+    public void OnMouseDown()
     {
-        gameState.SelectPiece(this.gameObject);
         currentCase = GetComponent<ChessPiece>().getCurrentCase(); // Get the current case from the ChessPiece component
         availableMoves.Clear(); // Clear the list of available moves
         if (facingNorth)
-        {
+        {   //MOVEMENT FOR WHITE PAWN
             if (currentCase.N && !currentCase.N.isOccupied)
             {
                 availableMoves.Add(currentCase.N); // Highlight the north square
@@ -42,9 +42,18 @@ public class PawnPiece : MonoBehaviour
                     availableMoves.Add(currentCase.N.N); // Highlight the north square
                 }
             }
+            //ATTACK FOR WHITE PAWN
+            if (currentCase.N && currentCase.N.W && currentCase.N.W.isOccupied && currentCase.N.W.currentPiece.GetComponent<ChessPiece>().team == ChessPiece.Team.Black)
+            {
+                attackablePieces.Add(currentCase.N.W.currentPiece);
+            }
+            if (currentCase.N && currentCase.N.E && currentCase.N.E.isOccupied && currentCase.N.E.currentPiece.GetComponent<ChessPiece>().team == ChessPiece.Team.Black)
+            {
+                attackablePieces.Add(currentCase.N.E.currentPiece); 
+            }
         }
         else
-        {
+        {   //MOVEMENT FOR BLACK PAWN
             if (currentCase.S && !currentCase.S.isOccupied)
             {
                 availableMoves.Add(currentCase.S);// Highlight the south square
@@ -53,8 +62,18 @@ public class PawnPiece : MonoBehaviour
                     availableMoves.Add(currentCase.S.S); // Highlight the south square
                 }
             }
+            //ATTACK FOR BLACK PAWN
+            if (currentCase.S && currentCase.S.W && currentCase.S.W.isOccupied && currentCase.S.W.currentPiece.GetComponent<ChessPiece>().team == ChessPiece.Team.White)
+            {
+                attackablePieces.Add(currentCase.S.W.currentPiece);
+            }
+            if (currentCase.S && currentCase.S.E && currentCase.S.E.isOccupied && currentCase.S.E.currentPiece.GetComponent<ChessPiece>().team == ChessPiece.Team.White)
+            {
+                attackablePieces.Add(currentCase.S.E.currentPiece);
+            }
         }
-        this.gameObject.GetComponent<ChessPiece>().selectPiece(availableMoves);
+        gameState.SelectPiece(this.gameObject, availableMoves, attackablePieces);
+        
     }
     
     public void setMovedToTrue()

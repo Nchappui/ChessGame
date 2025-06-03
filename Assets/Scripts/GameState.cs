@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameState : MonoBehaviour
@@ -20,18 +22,36 @@ public class GameState : MonoBehaviour
         return currentlySelectedPiece;
     }
 
-    public void SelectPiece(GameObject piece)
+    public void SelectPiece(GameObject piece, List<Case> availableMoves, List<GameObject> attackablePieces)
     {
         if (currentlySelectedPiece == null)
         {
             currentlySelectedPiece = piece;
         }
+        else if (currentlySelectedPiece == piece)
+        {
+            return;
+        }
         else
         {
+            if (piece.GetComponent<Outline>().OutlineColor == Color.red)
+            {
+                // If the piece is attackable, move it
+
+                //HANDLE SCORE HERE
+                MovePiece(piece.GetComponent<ChessPiece>().getCurrentCase().transform);
+                Destroy(piece.gameObject);
+                return;
+            }
+            else
+            {
             currentlySelectedPiece.GetComponent<ChessPiece>().deselectPiece();
             currentlySelectedPiece = piece;
+            }
+            
         }
-        currentlySelectedPiece.GetComponent<Outline>().enabled = true;
+        
+        currentlySelectedPiece.GetComponent<ChessPiece>().selectPiece(availableMoves, attackablePieces);
     }
 
     public void MovePiece(Transform newPlace)
@@ -46,7 +66,7 @@ public class GameState : MonoBehaviour
             newPlace.position.x,
             currentlySelectedPiece.transform.position.y,
             newPlace.position.z
-        );
+            );
             currentlySelectedPiece.GetComponent<ChessPiece>().setNewCase();
             currentlySelectedPiece.GetComponent<ChessPiece>().deselectPiece();
             currentlySelectedPiece = null;
