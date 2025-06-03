@@ -2,11 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Cinemachine;
+//using Cinemachine;
 
 public class GameState : MonoBehaviour
 {
     private GameObject currentlySelectedPiece = null;
     private bool isWhiteTurn = true; // Flag to check if it's white's turn
+    public GameObject playerOneCamera;
+    public GameObject playerTwoCamera;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -78,6 +82,8 @@ public class GameState : MonoBehaviour
             currentlySelectedPiece.GetComponent<ChessPiece>().deselectPiece();
             currentlySelectedPiece = null;
             isWhiteTurn = !isWhiteTurn; // Switch turns after a move
+            playerOneCamera.SetActive(isWhiteTurn); // Activate player one camera if it's white's turn
+            playerTwoCamera.SetActive(!isWhiteTurn); // Activate player two camera if it's black's turn
         }
     }
 }

@@ -261,7 +261,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &200452674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,13 +269,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 200452673}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Priority:
-    Enabled: 0
+    Enabled: 1
     m_Value: 0
   OutputChannel: 1
   StandbyUpdate: 2
@@ -866,6 +866,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16b0a8c6617b3a749aea36e011d39034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerOneCamera: {fileID: 1516463503}
+  playerTwoCamera: {fileID: 200452673}
 --- !u!1001 &542305161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2986,5 +2988,5 @@ SceneRoots:
   - {fileID: 1490346281}
   - {fileID: 11409746}
   - {fileID: 452989789}
-  - {fileID: 200452675}
   - {fileID: 1516463505}
+  - {fileID: 200452675}
