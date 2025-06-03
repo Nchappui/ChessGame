@@ -34,10 +34,10 @@ public class PawnPiece : MonoBehaviour
         availableMoves.Clear(); // Clear the list of available moves
         if (facingNorth)
         {
-            if (!currentCase.N.isOccupied)
+            if (currentCase.N && !currentCase.N.isOccupied)
             {
                 availableMoves.Add(currentCase.N); // Highlight the north square
-                if (!hasMoved)
+                if (!hasMoved && !currentCase.N.N.isOccupied)
                 {
                     availableMoves.Add(currentCase.N.N); // Highlight the north square
                 }
@@ -45,10 +45,10 @@ public class PawnPiece : MonoBehaviour
         }
         else
         {
-            if (!currentCase.S.isOccupied)
+            if (currentCase.S && !currentCase.S.isOccupied)
             {
                 availableMoves.Add(currentCase.S);// Highlight the south square
-                if (!hasMoved)
+                if (!hasMoved && !currentCase.S.S.isOccupied)
                 {
                     availableMoves.Add(currentCase.S.S); // Highlight the south square
                 }
