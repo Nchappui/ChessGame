@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class BishopPiece : MonoBehaviour
 {
-private Case currentCase; // Reference to the Case component of the current square
+    private Case currentCase; // Reference to the Case component of the current square
 
     private GameState gameState;
 
