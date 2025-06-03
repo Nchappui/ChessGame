@@ -26,6 +26,8 @@ public class UIUtils : MonoBehaviour
     {
         pawnToBePromoted = pawn; // Store the pawn to be promoted
         pawnPromote.SetActive(true); // Activate the pawn promotion UI
+        Time.timeScale = 0f;
+
     }
 
     public void PromoteToKnight()
@@ -65,6 +67,7 @@ public class UIUtils : MonoBehaviour
             newPiece.GetComponent<ChessPiece>().team = teamForCreation;
             
             pawnPromote.SetActive(false); // Deactivate the pawn promotion UI
+            Time.timeScale = 1f;
 
         }
     }

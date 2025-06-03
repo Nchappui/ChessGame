@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class KnightPiece : MonoBehaviour
 {
@@ -44,6 +45,10 @@ public class KnightPiece : MonoBehaviour
     }
     public void OnMouseDown()
     {
+       if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()){
+
+            return; // Le clic était sur l'UI, on ignore
+        }
         currentCase = GetComponent<ChessPiece>().getCurrentCase(); // Get the current case from the ChessPiece component
         availableMoves.Clear(); // Clear the list of available moves
         Case tempCase = currentCase; // Temporary variable to traverse the cases
