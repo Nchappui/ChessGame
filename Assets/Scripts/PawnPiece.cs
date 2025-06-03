@@ -13,11 +13,14 @@ public class PawnPiece : MonoBehaviour
 
     private List<Case> availableMoves = new List<Case>(); // Array to hold the available moves for the piece
     private List<GameObject> attackablePieces = new List<GameObject>();
+
+    public GameObject queenPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gameState = FindAnyObjectByType<GameState>().GetComponent<GameState>();
         facingNorth = GetComponent<ChessPiece>().team == ChessPiece.Team.White; // Check if the piece is facing north based on its team
+        
 
     }
 
@@ -79,6 +82,11 @@ public class PawnPiece : MonoBehaviour
     public void setMovedToTrue()
     {
         hasMoved = true; // Set the hasMoved flag to true
+    }
+
+    public bool getFacingNorth()
+    {
+        return facingNorth; // Return the facingNorth flag
     }
 }
 
