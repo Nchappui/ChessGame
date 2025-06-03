@@ -36,6 +36,14 @@ public class GameState : MonoBehaviour
 
                 //HANDLE SCORE HERE
 
+                if (piece.GetComponent<KingPiece>() !=null){
+                    UIUtils UIutils = FindAnyObjectByType<UIUtils>().GetComponent<UIUtils>();
+                    if(piece.GetComponent<ChessPiece>().team == ChessPiece.Team.White){
+                        UIutils.ShowWinnerPanel(ChessPiece.Team.Black);
+                    } else {
+                        UIutils.ShowWinnerPanel(ChessPiece.Team.White);
+                    }
+                }
                 piece.gameObject.SetActive(false);
                 Destroy(piece.gameObject);
                 MovePiece(piece.GetComponent<ChessPiece>().getCurrentCase().transform);

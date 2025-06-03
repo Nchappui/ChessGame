@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class UIUtils : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class UIUtils : MonoBehaviour
     public GameObject bishopPrefab;
     public GameObject rookPrefab;
     public GameObject queenPrefab;
+
+    public GameObject winnerPanel;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -69,6 +72,18 @@ public class UIUtils : MonoBehaviour
             pawnPromote.SetActive(false); // Deactivate the pawn promotion UI
             Time.timeScale = 1f;
 
+        }
+    }
+    public void ShowWinnerPanel(ChessPiece.Team winningTeam)
+    {
+        winnerPanel.SetActive(true); // Activate the winner panel
+        if (winningTeam == ChessPiece.Team.White)
+        {
+            winnerPanel.transform.GetChild(0).GetComponent<TextMeshPro>().text = "BLANCS GAGNENT !";
+        }
+        else
+        {
+            winnerPanel.transform.GetChild(0).GetComponent<TextMeshPro>().text = "NOIRS GAGNENT !";
         }
     }
 }
