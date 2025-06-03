@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class TowerPiece : MonoBehaviour
+public class RookPiece : MonoBehaviour
 {
     private Case currentCase; // Reference to the Case component of the current square
 
