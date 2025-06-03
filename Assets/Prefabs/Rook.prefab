@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3490465397404618438}
   - component: {fileID: -5893977391338315465}
   m_Layer: 0
-  m_Name: Tower
+  m_Name: Rook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
