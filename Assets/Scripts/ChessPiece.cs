@@ -7,6 +7,7 @@ public class ChessPiece : MonoBehaviour
     private Case currentCase; // Reference to the Case component of the current square
     private List<Case> availableMoves = new List<Case>(); // Array to hold the available moves for the piece
     private List<GameObject> attackablePieces = new List<GameObject>(); // Array to hold the pieces that can be attacked
+    private List<GameObject> rooksToCastle = new List<GameObject>(); // List to hold the rooks for castling
 
     public enum Team
     {
@@ -45,7 +46,7 @@ public class ChessPiece : MonoBehaviour
 
     }
 
-    public void selectPiece(List<Case> availableMoves, List<GameObject> attackablePieces)
+    public void selectPiece(List<Case> availableMoves, List<GameObject> attackablePieces, List<GameObject> rooksToCastle = null)
     {
         this.attackablePieces = attackablePieces; // Store the list of attackable pieces
         foreach (GameObject piece in attackablePieces)
@@ -60,7 +61,19 @@ public class ChessPiece : MonoBehaviour
         {
             move.transform.GetChild(0).gameObject.SetActive(true); // Enable the highlight on the available moves
         }
+
+        this.rooksToCastle = rooksToCastle; // Store the list of rooks for castling
+        if (rooksToCastle != null){
+            foreach (GameObject rook in rooksToCastle)
+            {
+                rook.GetComponent<Outline>().enabled = true; // Enable the outline for rooks that can castle
+                rook.GetComponent<Outline>().OutlineColor = Color.yellow; // Set the outline color to yellow for castling rooks
+            }
+        } // If there are no rooks to castle, return
+        
+
         this.gameObject.GetComponent<Outline>().enabled = true;
+
     }
     
 
@@ -71,11 +84,19 @@ public class ChessPiece : MonoBehaviour
             piece.GetComponent<Outline>().enabled = false; // Disable the outline for attackable pieces
             piece.GetComponent<Outline>().OutlineColor = Color.green;
         }
+        if (rooksToCastle != null){
+        foreach (GameObject rook in rooksToCastle)
+            {
+                rook.GetComponent<Outline>().enabled = false; // Enable the outline for rooks that can castle
+                rook.GetComponent<Outline>().OutlineColor = Color.green; // Set the outline color to yellow for castling rooks
+            }
+        }
         attackablePieces.Clear(); // Clear the list of attackable pieces
         foreach (Case move in availableMoves)
         {
             move.transform.GetChild(0).gameObject.SetActive(false); // Disable the highlight on the available moves
         }
+        
         GetComponent<Outline>().enabled = false; // Disable the outline of the piece
         availableMoves.Clear(); // Clear the list of available moves
     }
@@ -98,6 +119,14 @@ public class ChessPiece : MonoBehaviour
                 UIUtils UIutils = FindAnyObjectByType<UIUtils>().GetComponent<UIUtils>();
                 UIutils.SetPawnToBePromoted(gameObject); // Set the pawn to be promoted in the UI
             }
+        }
+        if (gameObject.GetComponent<RookPiece>() != null)
+        {
+            gameObject.GetComponent<RookPiece>().setMovedToTrue(); // Set the hasMoved flag to true for RookPiece
+        }
+        if (gameObject.GetComponent<KingPiece>() != null)
+        {
+            gameObject.GetComponent<KingPiece>().setMovedToTrue(); // Set the hasMoved flag to true for KingPiece
         }
     }
 

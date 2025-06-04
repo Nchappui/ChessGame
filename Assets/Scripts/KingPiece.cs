@@ -10,6 +10,8 @@ public class KingPiece : MonoBehaviour
 
     private List<Case> availableMoves = new List<Case>(); // Array to hold the available moves for the piece
     private List<GameObject> attackablePieces = new List<GameObject>();
+    private List<GameObject> rooksToCastle = new List<GameObject>(); // List to hold the rooks for castling
+    private bool hasMoved = false; // Flag to check if the king has moved
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -101,8 +103,31 @@ public class KingPiece : MonoBehaviour
             tempCase = tempCase.W; // Move to the west case
             addCase(tempCase);
         }
-        
-        gameState.SelectPiece(this.gameObject, availableMoves, attackablePieces); // Call the SelectPiece method in GameState to handle the selection
+        rooksToCastle.Clear(); // Clear the list of rooks for castling
+        if (!hasMoved){
+            if (!currentCase.E.isOccupied && !currentCase.E.E.isOccupied && currentCase.E.E.E.currentPiece.GetComponent<RookPiece>() != null && !currentCase.E.E.E.currentPiece.GetComponent<RookPiece>().getHasMoved())
+            {
+                GameObject rookPiece = currentCase.E.E.E.currentPiece; // Get the rook case for castling
+                rooksToCastle.Add(rookPiece); // Add the rook to the list of rooks for castling
+                availableMoves.Add(currentCase.E.E); // Add the square to the available moves for castling
+            }
+            if (!currentCase.W.isOccupied && !currentCase.W.W.isOccupied && !currentCase.W.W.W.isOccupied && currentCase.W.W.W.W.currentPiece.GetComponent<RookPiece>() != null && !currentCase.W.W.W.W.currentPiece.GetComponent<RookPiece>().getHasMoved())
+            {
+                GameObject rookPiece = currentCase.W.W.W.W.currentPiece; // Get the rook case for castling
+                rooksToCastle.Add(rookPiece); // Add the rook to the list of rooks for castling
+                availableMoves.Add(currentCase.W.W); // Add the square to the available moves for castling
+            }
+        }
+        gameState.SelectPiece(this.gameObject, availableMoves, attackablePieces, rooksToCastle); // Call the SelectPiece method in GameState to handle the selection
 
+    }
+
+    public void setMovedToTrue()
+    {
+        hasMoved = true; // Set the hasMoved flag to true
+    }
+    public bool getHasMoved()
+    {
+        return hasMoved; // Return the hasMoved flag
     }
 }

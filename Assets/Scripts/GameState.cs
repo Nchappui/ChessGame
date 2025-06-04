@@ -14,6 +14,9 @@ public class GameState : MonoBehaviour
 
     public ParticleSystem fireWorks;
 
+    private bool castleLeft = false;
+    private bool castleRight = false;
+
     private bool rotateCamera = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -38,7 +41,7 @@ public class GameState : MonoBehaviour
         return currentlySelectedPiece;
     }
 
-    public void SelectPiece(GameObject piece, List<Case> availableMoves, List<GameObject> attackablePieces)
+    public void SelectPiece(GameObject piece, List<Case> availableMoves, List<GameObject> attackablePieces, List<GameObject> rooksToCastle = null)
     {
         if (piece.GetComponent<Outline>().OutlineColor == Color.red)
             {
@@ -81,7 +84,7 @@ public class GameState : MonoBehaviour
             
         }
         
-        currentlySelectedPiece.GetComponent<ChessPiece>().selectPiece(availableMoves, attackablePieces);
+        currentlySelectedPiece.GetComponent<ChessPiece>().selectPiece(availableMoves, attackablePieces, rooksToCastle);
     }
 
     public void MovePiece(Transform newPlace)
@@ -92,13 +95,45 @@ public class GameState : MonoBehaviour
         }
         else
         {
-    
-            currentlySelectedPiece.GetComponent<ChessPiece>().setCurrentCase(newPlace.GetComponent<Case>());
+            if (currentlySelectedPiece.GetComponent<KingPiece>() != null && newPlace == currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().E.E.transform)
+            {
+                Debug.Log("King is castling right");
+                castleRight = true;
+            }
+            else if (currentlySelectedPiece.GetComponent<KingPiece>() != null && newPlace == currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().W.W.transform)
+            {
+                Debug.Log("King is castling left");
+                castleLeft = true;
+            }
+            else
+            {
+                castleLeft = false;
+                castleRight = false;
+            }
+
+            if (castleRight){
+                GameObject rook = currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().E.E.E.currentPiece;
+                rook.transform.position = new Vector3(
+                    currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().E.transform.position.x,
+                    rook.transform.position.y,
+                    rook.transform.position.z);
+                rook.GetComponent<ChessPiece>().setNewCase();
+                rook.GetComponent<ChessPiece>().deselectPiece();
+            }
+            else if (castleLeft){
+                GameObject rook = currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().W.W.W.W.currentPiece;
+                rook.transform.position = new Vector3(
+                    currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().W.transform.position.x,
+                    rook.transform.position.y,
+                    rook.transform.position.z);
+                rook.GetComponent<ChessPiece>().setNewCase();
+                rook.GetComponent<ChessPiece>().deselectPiece();
+            }
+
             currentlySelectedPiece.transform.position = new Vector3(
             newPlace.position.x,
             currentlySelectedPiece.transform.position.y,
-            newPlace.position.z
-);
+            newPlace.position.z);
                         
             currentlySelectedPiece.GetComponent<ChessPiece>().setNewCase();
             currentlySelectedPiece.GetComponent<ChessPiece>().deselectPiece();

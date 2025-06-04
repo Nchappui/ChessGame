@@ -10,6 +10,7 @@ public class RookPiece : MonoBehaviour
 
     private List<Case> availableMoves = new List<Case>(); // Array to hold the available moves for the piece
     private List<GameObject> attackablePieces = new List<GameObject>();
+    private bool hasMoved = false; // Flag to check if the piece has moved
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -102,5 +103,13 @@ public class RookPiece : MonoBehaviour
         }
         gameState.SelectPiece(this.gameObject, availableMoves, attackablePieces); // Call the SelectPiece method in GameState to handle the selection
     
+    }
+        public void setMovedToTrue()
+    {
+        hasMoved = true; // Set the hasMoved flag to true
+    }
+    public bool getHasMoved()
+    {
+        return hasMoved; // Return the hasMoved flag
     }
 }
