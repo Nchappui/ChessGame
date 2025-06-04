@@ -79,11 +79,11 @@ public class UIUtils : MonoBehaviour
         winnerPanel.SetActive(true); // Activate the winner panel
         if (winningTeam == ChessPiece.Team.White)
         {
-            winnerPanel.transform.GetChild(0).GetComponent<TextMeshPro>().text = "BLANCS GAGNENT !";
+            winnerPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "BLANCS GAGNENT !";
         }
         else
         {
-            winnerPanel.transform.GetChild(0).GetComponent<TextMeshPro>().text = "NOIRS GAGNENT !";
+            winnerPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "NOIRS GAGNENT !";
         }
     }
 }
