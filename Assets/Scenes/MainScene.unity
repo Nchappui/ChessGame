@@ -982,7 +982,7 @@ MonoBehaviour:
     Enabled: 0
     DefaultMode: 2
   DefaultBlend:
-    Style: 1
+    Style: 6
     Time: 1
     CustomCurve:
       serializedVersion: 2
@@ -1241,6 +1241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerOneCamera: {fileID: 1516463503}
   playerTwoCamera: {fileID: 200452673}
+  fireWorks: {fileID: 1326797399}
 --- !u!4 &548473544 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000012297859478, guid: 3605a6e4fde7d594aa08481185959edb, type: 3}
@@ -2179,6 +2180,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000012297859478, guid: 3605a6e4fde7d594aa08481185959edb, type: 3}
   m_PrefabInstance: {fileID: 298322950}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &1326797399 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5716242421851707457, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+  m_PrefabInstance: {fileID: 1781901718}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1365094627 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000012297859478, guid: 3605a6e4fde7d594aa08481185959edb, type: 3}
@@ -2675,6 +2681,75 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000012297859478, guid: 3605a6e4fde7d594aa08481185959edb, type: 3}
   m_PrefabInstance: {fileID: 672050025}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1781901718
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5716242421851707457, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6392674540206465814, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817976008453605669, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817976008453605669, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817976008453605669, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817976008453605669, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817976008453605669, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817976008453605669, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817976008453605669, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817976008453605669, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817976008453605669, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7817976008453605669, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8540228829023877086, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_Name
+      value: FireWorks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8540228829023877086, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b4b908616da78d14a8c9af75c51f2754, type: 3}
 --- !u!1001 &1798037912
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3093,3 +3168,4 @@ SceneRoots:
   - {fileID: 452989789}
   - {fileID: 1516463505}
   - {fileID: 200452675}
+  - {fileID: 1781901718}

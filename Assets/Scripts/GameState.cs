@@ -44,8 +44,6 @@ public class GameState : MonoBehaviour
             {
                 // If the piece is attackable, move it
 
-                //HANDLE SCORE HERE
-
                 if (piece.GetComponent<KingPiece>() !=null){
                     UIUtils UIutils = FindAnyObjectByType<UIUtils>().GetComponent<UIUtils>();
                     if(piece.GetComponent<ChessPiece>().team == ChessPiece.Team.White){
@@ -94,11 +92,14 @@ public class GameState : MonoBehaviour
         }
         else
         {
+    
+            currentlySelectedPiece.GetComponent<ChessPiece>().setCurrentCase(newPlace.GetComponent<Case>());
             currentlySelectedPiece.transform.position = new Vector3(
             newPlace.position.x,
             currentlySelectedPiece.transform.position.y,
             newPlace.position.z
-            );
+);
+                        
             currentlySelectedPiece.GetComponent<ChessPiece>().setNewCase();
             currentlySelectedPiece.GetComponent<ChessPiece>().deselectPiece();
             currentlySelectedPiece = null;
