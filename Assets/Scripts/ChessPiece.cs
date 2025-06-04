@@ -29,10 +29,6 @@ public class ChessPiece : MonoBehaviour
     void Start(){
         if (team == Team.Black){
             this.GetComponent<Renderer>().material.SetColor("_BaseColor", Color.black);
-            if (GetComponent<KnightPiece>() != null)
-            {
-                transform.GetChild(0).GetComponent<Renderer>().material.SetColor("_BaseColor", Color.black);
-            }
         }
     }
 

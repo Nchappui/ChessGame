@@ -149,10 +149,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pawnPromote: {fileID: 913085092}
-  knightPrefab: {fileID: 7628975223673363002, guid: 0b33c2f57488720468a699313b843a42, type: 3}
-  bishopPrefab: {fileID: 1832490123655332763, guid: 0bbaf5d1f6d711b4cbd670d1bee3442b, type: 3}
-  rookPrefab: {fileID: 1738791726435546345, guid: 435db46cb5549ba45bf9069a29db8f90, type: 3}
-  queenPrefab: {fileID: 7259108022540076593, guid: 0e84f4fa302f60447b43a1eab25328a7, type: 3}
+  knightPrefab: {fileID: 1000014234871720, guid: cb0afc2bcef746940a57b9fff95cf079, type: 3}
+  bishopPrefab: {fileID: 1000014291839912, guid: e2e9e589ac51bdb48bcae102d4799914, type: 3}
+  rookPrefab: {fileID: 1000012089885188, guid: 6771efaae8343104b88ef1dd839fd639, type: 3}
+  queenPrefab: {fileID: 1000011613667446, guid: c9476b5c23fb4634485fcb52734c04d5, type: 3}
   winnerPanel: {fileID: 2127777431}
 --- !u!4 &451904552
 Transform:

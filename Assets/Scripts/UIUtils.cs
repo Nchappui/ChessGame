@@ -62,11 +62,11 @@ public class UIUtils : MonoBehaviour
             GameObject newPiece;
             if (teamForCreation == ChessPiece.Team.White)
             {
-                newPiece = Instantiate(piecePrefab, pawnToBePromoted.transform.position + piecePrefab.transform.position - new Vector3 (0f,0.3f,0f), Quaternion.Euler(0f, 0f, 0f));
+                newPiece = Instantiate(piecePrefab, pawnToBePromoted.transform.position + piecePrefab.transform.position - new Vector3 (0f,0.12f,0f), Quaternion.Euler(-90f, -90f, 0f));
             }
             else
             {
-                newPiece = Instantiate(piecePrefab, pawnToBePromoted.transform.position + piecePrefab.transform.position - new Vector3 (0f,0.3f,0f), Quaternion.Euler(0f, 180f, 0f));
+                newPiece = Instantiate(piecePrefab, pawnToBePromoted.transform.position + piecePrefab.transform.position - new Vector3 (0f,0.12f,0f), Quaternion.Euler(-90f, 90f, 0f));
             }
             newPiece.GetComponent<ChessPiece>().team = teamForCreation;
             
