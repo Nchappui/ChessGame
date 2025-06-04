@@ -11,6 +11,8 @@ public class GameState : MonoBehaviour
     private bool isWhiteTurn = true; // Flag to check if it's white's turn
     public GameObject playerOneCamera;
     public GameObject playerTwoCamera;
+
+    private bool rotateCamera = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,6 +22,12 @@ public class GameState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (rotateCamera)
+        {
+            playerOneCamera.transform.RotateAround(new Vector3(3.5f,0.7f,3.5f), Vector3.up, 20 * Time.deltaTime); 
+            playerTwoCamera.transform.RotateAround(new Vector3(3.5f,0.7f,3.5f), Vector3.up, 20 * Time.deltaTime);
+        }
+
 
     }
 
@@ -42,8 +50,11 @@ public class GameState : MonoBehaviour
                         UIutils.ShowWinnerPanel(ChessPiece.Team.Black);
                     } else {
                         UIutils.ShowWinnerPanel(ChessPiece.Team.White);
+                        
                     }
+                    rotateCamera = true;
                 }
+                
                 piece.gameObject.SetActive(false);
                 Destroy(piece.gameObject);
                 MovePiece(piece.GetComponent<ChessPiece>().getCurrentCase().transform);
@@ -90,8 +101,11 @@ public class GameState : MonoBehaviour
             currentlySelectedPiece.GetComponent<ChessPiece>().deselectPiece();
             currentlySelectedPiece = null;
             isWhiteTurn = !isWhiteTurn; // Switch turns after a move
-            playerOneCamera.SetActive(isWhiteTurn); // Activate player one camera if it's white's turn
-            playerTwoCamera.SetActive(!isWhiteTurn); // Activate player two camera if it's black's turn
+            if (!rotateCamera){
+                playerOneCamera.SetActive(isWhiteTurn); // Activate player one camera if it's white's turn
+                playerTwoCamera.SetActive(!isWhiteTurn); // Activate player two camera if it's black's turn
+            }
+
         }
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIUtils : MonoBehaviour
 {
@@ -85,5 +86,10 @@ public class UIUtils : MonoBehaviour
         {
             winnerPanel.transform.GetChild(0).GetComponent<TMP_Text>().text = "NOIRS GAGNENT !";
         }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
