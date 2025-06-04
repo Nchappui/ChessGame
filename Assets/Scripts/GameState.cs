@@ -95,12 +95,12 @@ public class GameState : MonoBehaviour
         }
         else
         {
-            if (currentlySelectedPiece.GetComponent<KingPiece>() != null && newPlace == currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().E.E.transform)
+            if (currentlySelectedPiece.GetComponent<KingPiece>() != null && currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().E != null && currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().E.E != null && newPlace == currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().E.E.transform)
             {
                 Debug.Log("King is castling right");
                 castleRight = true;
             }
-            else if (currentlySelectedPiece.GetComponent<KingPiece>() != null && newPlace == currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().W.W.transform)
+            else if (currentlySelectedPiece.GetComponent<KingPiece>() != null && currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().W != null && currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().W.W != null && newPlace == currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().W.W.transform)
             {
                 Debug.Log("King is castling left");
                 castleLeft = true;
