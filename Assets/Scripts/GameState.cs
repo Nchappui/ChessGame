@@ -12,6 +12,8 @@ public class GameState : MonoBehaviour
     public GameObject playerOneCamera;
     public GameObject playerTwoCamera;
 
+    public ParticleSystem fireWorks;
+
     private bool rotateCamera = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -52,6 +54,7 @@ public class GameState : MonoBehaviour
                         UIutils.ShowWinnerPanel(ChessPiece.Team.White);
                         
                     }
+                    fireWorks.Play();
                     rotateCamera = true;
                 }
                 piece.gameObject.SetActive(false);
