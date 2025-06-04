@@ -22,9 +22,15 @@ public class ChessPiece : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit ray))
         {
             currentCase = ray.collider.gameObject.GetComponent<Case>(); // Get the Case component from the square
+            Debug.Log(ray.collider.gameObject + " is the square for " + gameObject.name);
+            currentCase.currentPiece = gameObject; // Set the current piece on the square
+            currentCase.isOccupied = true; // Mark the square as occupied
         }
-        currentCase.currentPiece = gameObject; // Set the current piece on the square
-        currentCase.isOccupied = true; // Mark the square as occupied
+        else
+        {
+            Debug.LogWarning("Raycast n'a rien touché !");
+        }
+
     }
     void Start(){
         if (team == Team.Black){
@@ -98,6 +104,13 @@ public class ChessPiece : MonoBehaviour
     public Case getCurrentCase()
     {
         return currentCase;
+    }
+
+    public void setCurrentCase(Case newCase)
+    {
+        currentCase = newCase; // Set the current case to the new case
+        newCase.currentPiece = gameObject; // Set the current piece on the new case
+        newCase.isOccupied = true; // Mark the new case as occupied
     }
 }
 

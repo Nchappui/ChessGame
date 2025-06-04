@@ -62,14 +62,14 @@ public class UIUtils : MonoBehaviour
             GameObject newPiece;
             if (teamForCreation == ChessPiece.Team.White)
             {
-                newPiece = Instantiate(piecePrefab, pawnToBePromoted.transform.position + piecePrefab.transform.position - new Vector3 (0f,0.12f,0f), Quaternion.Euler(-90f, -90f, 0f));
+                newPiece = Instantiate(piecePrefab, pawnToBePromoted.transform.position + piecePrefab.transform.position - new Vector3 (0f,0.08f,0f), Quaternion.Euler(-90f, -90f, 0f));
             }
             else
             {
-                newPiece = Instantiate(piecePrefab, pawnToBePromoted.transform.position + piecePrefab.transform.position - new Vector3 (0f,0.12f,0f), Quaternion.Euler(-90f, 90f, 0f));
+                newPiece = Instantiate(piecePrefab, pawnToBePromoted.transform.position + piecePrefab.transform.position - new Vector3 (0f,0.08f,0f), Quaternion.Euler(-90f, 90f, 0f));
             }
             newPiece.GetComponent<ChessPiece>().team = teamForCreation;
-            
+            newPiece.GetComponent<ChessPiece>().setCurrentCase(pawnToBePromoted.GetComponent<ChessPiece>().getCurrentCase()); // Set the current case of the new piece to the pawn's current case
             pawnPromote.SetActive(false); // Deactivate the pawn promotion UI
             Time.timeScale = 1f;
 
