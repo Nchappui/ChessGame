@@ -153,6 +153,7 @@ MonoBehaviour:
   bishopPrefab: {fileID: 1000014291839912, guid: e2e9e589ac51bdb48bcae102d4799914, type: 3}
   rookPrefab: {fileID: 1000012089885188, guid: 6771efaae8343104b88ef1dd839fd639, type: 3}
   queenPrefab: {fileID: 1000011613667446, guid: c9476b5c23fb4634485fcb52734c04d5, type: 3}
+  promoteParticles: {fileID: 6898808930632919275, guid: d003b1703bb64ac4d84f032592483a14, type: 3}
   winnerPanel: {fileID: 2127777431}
 --- !u!4 &451904552
 Transform:

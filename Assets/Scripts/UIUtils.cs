@@ -12,6 +12,7 @@ public class UIUtils : MonoBehaviour
     public GameObject bishopPrefab;
     public GameObject rookPrefab;
     public GameObject queenPrefab;
+    public ParticleSystem promoteParticles;
 
     public GameObject winnerPanel;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -70,6 +71,8 @@ public class UIUtils : MonoBehaviour
             }
             newPiece.GetComponent<ChessPiece>().team = teamForCreation;
             newPiece.GetComponent<ChessPiece>().setCurrentCase(pawnToBePromoted.GetComponent<ChessPiece>().getCurrentCase()); // Set the current case of the new piece to the pawn's current case
+            ParticleSystem particles = Instantiate(promoteParticles, newPiece.transform.position, Quaternion.Euler(-90f, 0f, 0f));
+            particles.Play();
             pawnPromote.SetActive(false); // Deactivate the pawn promotion UI
             Time.timeScale = 1f;
 

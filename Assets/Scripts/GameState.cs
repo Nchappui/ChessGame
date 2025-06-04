@@ -54,7 +54,6 @@ public class GameState : MonoBehaviour
                     }
                     rotateCamera = true;
                 }
-                
                 piece.gameObject.SetActive(false);
                 Destroy(piece.gameObject);
                 MovePiece(piece.GetComponent<ChessPiece>().getCurrentCase().transform);
