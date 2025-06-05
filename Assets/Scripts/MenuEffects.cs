@@ -4,6 +4,7 @@ using UnityEngine;
 public class MenuEffects : MonoBehaviour
 {
     public List<GameObject> prefabs; // List of prefabs to instantiate
+    
 
     private List<Color> colors = new List<Color>
     {
