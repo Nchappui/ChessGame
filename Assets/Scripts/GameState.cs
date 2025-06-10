@@ -18,6 +18,8 @@ public class GameState : MonoBehaviour
     private bool castleRight = false;
 
     private bool rotateCamera = false;
+
+    public GameObject lastMovedPiece = null;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -89,6 +91,8 @@ public class GameState : MonoBehaviour
 
     public void MovePiece(Transform newPlace)
     {
+        bool diagMove = false;
+
         if (currentlySelectedPiece == null)
         {
             return;
@@ -111,7 +115,8 @@ public class GameState : MonoBehaviour
                 castleRight = false;
             }
 
-            if (castleRight){
+            if (castleRight)
+            {
                 GameObject rook = currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().E.E.E.currentPiece;
                 rook.transform.position = new Vector3(
                     currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().E.transform.position.x,
@@ -120,7 +125,8 @@ public class GameState : MonoBehaviour
                 rook.GetComponent<ChessPiece>().setNewCase();
                 rook.GetComponent<ChessPiece>().deselectPiece();
             }
-            else if (castleLeft){
+            else if (castleLeft)
+            {
                 GameObject rook = currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().W.W.W.W.currentPiece;
                 rook.transform.position = new Vector3(
                     currentlySelectedPiece.GetComponent<ChessPiece>().getCurrentCase().W.transform.position.x,
@@ -130,16 +136,24 @@ public class GameState : MonoBehaviour
                 rook.GetComponent<ChessPiece>().deselectPiece();
             }
 
+            if (currentlySelectedPiece.GetComponent<PawnPiece>() != null && Vector3.Distance(currentlySelectedPiece.transform.position, newPlace.position) > 1.1f && Vector3.Distance(currentlySelectedPiece.transform.position, newPlace.position) < 1.9f)
+            {
+                diagMove = true; // If the pawn moved diagonally, set diagMove to true
+            }
+
+
             currentlySelectedPiece.transform.position = new Vector3(
             newPlace.position.x,
             currentlySelectedPiece.transform.position.y,
             newPlace.position.z);
-                        
+
             currentlySelectedPiece.GetComponent<ChessPiece>().setNewCase();
-            currentlySelectedPiece.GetComponent<ChessPiece>().deselectPiece();
+            currentlySelectedPiece.GetComponent<ChessPiece>().deselectPiece(diagMove);
+            lastMovedPiece = currentlySelectedPiece; // Store the last moved piece
             currentlySelectedPiece = null;
             isWhiteTurn = !isWhiteTurn; // Switch turns after a move
-            if (!rotateCamera){
+            if (!rotateCamera)
+            {
                 playerOneCamera.SetActive(isWhiteTurn); // Activate player one camera if it's white's turn
                 playerTwoCamera.SetActive(!isWhiteTurn); // Activate player two camera if it's black's turn
             }

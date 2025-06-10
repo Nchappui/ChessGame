@@ -14,6 +14,11 @@ public class PawnPiece : MonoBehaviour
 
     private List<Case> availableMoves = new List<Case>(); // Array to hold the available moves for the piece
     private List<GameObject> attackablePieces = new List<GameObject>();
+
+    private List<GameObject> pawnPriseEnPassant = new List<GameObject>(); // List to hold the pawns that can be taken en passant
+
+    public bool hasJustDoubleMoved = false; // Flag to check if the piece has double moved
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,6 +43,7 @@ public class PawnPiece : MonoBehaviour
         }
         currentCase = GetComponent<ChessPiece>().getCurrentCase(); // Get the current case from the ChessPiece component
         availableMoves.Clear(); // Clear the list of available moves
+        pawnPriseEnPassant.Clear(); // Clear the list of pawns that can be taken en passant
         if (facingNorth)
         {   //MOVEMENT FOR WHITE PAWN
             if (currentCase.N && !currentCase.N.isOccupied)
@@ -48,6 +54,19 @@ public class PawnPiece : MonoBehaviour
                     availableMoves.Add(currentCase.N.N); // Highlight the north square
                 }
             }
+            //PRISE EN PASSANT FOR WHITE PAWN
+            if (currentCase.N && currentCase.N.E && currentCase.E.isOccupied && currentCase.E.currentPiece == gameState.lastMovedPiece && currentCase.E.currentPiece.GetComponent <ChessPiece>().team == ChessPiece.Team.Black
+            && currentCase.N.E.isOccupied == false && currentCase.E.currentPiece.GetComponent<PawnPiece>() != null && currentCase.E.currentPiece.GetComponent<PawnPiece>().hasJustDoubleMoved) 
+            {
+                availableMoves.Add(currentCase.N.E); // Highlight the east square
+                pawnPriseEnPassant.Add(currentCase.E.currentPiece); // Add the pawn that can be taken en passant
+            }
+            if (currentCase.N && currentCase.N.W && currentCase.W.isOccupied && currentCase.W.currentPiece == gameState.lastMovedPiece && currentCase.W.currentPiece.GetComponent <ChessPiece>().team == ChessPiece.Team.Black
+            && currentCase.N.W.isOccupied == false && currentCase.W.currentPiece.GetComponent<PawnPiece>() != null && currentCase.W.currentPiece.GetComponent<PawnPiece>().hasJustDoubleMoved)
+            {
+                availableMoves.Add(currentCase.N.W); // Highlight the west square
+                pawnPriseEnPassant.Add(currentCase.W.currentPiece); // Add the pawn that can be taken en passant
+            }
             //ATTACK FOR WHITE PAWN
             if (currentCase.N && currentCase.N.W && currentCase.N.W.isOccupied && currentCase.N.W.currentPiece.GetComponent<ChessPiece>().team == ChessPiece.Team.Black)
             {
@@ -55,7 +74,7 @@ public class PawnPiece : MonoBehaviour
             }
             if (currentCase.N && currentCase.N.E && currentCase.N.E.isOccupied && currentCase.N.E.currentPiece.GetComponent<ChessPiece>().team == ChessPiece.Team.Black)
             {
-                attackablePieces.Add(currentCase.N.E.currentPiece); 
+                attackablePieces.Add(currentCase.N.E.currentPiece);
             }
         }
         else
@@ -68,6 +87,19 @@ public class PawnPiece : MonoBehaviour
                     availableMoves.Add(currentCase.S.S); // Highlight the south square
                 }
             }
+            //PRISE EN PASSANT FOR BLACK PAWN
+            if (currentCase.S && currentCase.S.E && currentCase.E.isOccupied && currentCase.E.currentPiece == gameState.lastMovedPiece && currentCase.E.currentPiece.GetComponent <ChessPiece>().team == ChessPiece.Team.White
+            && currentCase.S.E.isOccupied == false && currentCase.E.currentPiece.GetComponent<PawnPiece>() != null && currentCase.E.currentPiece.GetComponent<PawnPiece>().hasJustDoubleMoved)
+            {
+                availableMoves.Add(currentCase.S.E); // Highlight the east square
+                pawnPriseEnPassant.Add(currentCase.E.currentPiece); // Add the pawn that can be taken en passant
+            }
+            if (currentCase.S && currentCase.S.W && currentCase.W.isOccupied && currentCase.W.currentPiece == gameState.lastMovedPiece && currentCase.W.currentPiece.GetComponent <ChessPiece>().team == ChessPiece.Team.White
+            && currentCase.S.W.isOccupied == false && currentCase.W.currentPiece.GetComponent<PawnPiece>() != null && currentCase.W.currentPiece.GetComponent<PawnPiece>().hasJustDoubleMoved)
+            {
+                availableMoves.Add(currentCase.S.W); // Highlight the west square
+                pawnPriseEnPassant.Add(currentCase.W.currentPiece); // Add the pawn that can be taken en passant
+            }
             //ATTACK FOR BLACK PAWN
             if (currentCase.S && currentCase.S.W && currentCase.S.W.isOccupied && currentCase.S.W.currentPiece.GetComponent<ChessPiece>().team == ChessPiece.Team.White)
             {
@@ -78,7 +110,7 @@ public class PawnPiece : MonoBehaviour
                 attackablePieces.Add(currentCase.S.E.currentPiece);
             }
         }
-        gameState.SelectPiece(this.gameObject, availableMoves, attackablePieces);
+        gameState.SelectPiece(this.gameObject, availableMoves, attackablePieces, pawnPriseEnPassant);
         
     }
     

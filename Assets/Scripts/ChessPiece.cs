@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ChessPiece : MonoBehaviour
@@ -77,7 +78,7 @@ public class ChessPiece : MonoBehaviour
     }
     
 
-    public void deselectPiece()
+    public void deselectPiece(bool pawnMoved = false)
     {
         foreach (GameObject piece in attackablePieces)
         {
@@ -85,10 +86,17 @@ public class ChessPiece : MonoBehaviour
             piece.GetComponent<Outline>().OutlineColor = Color.green;
         }
         if (rooksToCastle != null){
-        foreach (GameObject rook in rooksToCastle)
+            foreach (GameObject rook in rooksToCastle)
             {
                 rook.GetComponent<Outline>().enabled = false; // Enable the outline for rooks that can castle
                 rook.GetComponent<Outline>().OutlineColor = Color.green; // Set the outline color to yellow for castling rooks
+
+                if (pawnMoved)
+                {
+                    rook.SetActive(false);
+                    rook.GetComponent<ChessPiece>().getCurrentCase().isOccupied = false; // Mark the square as unoccupied
+                    Destroy(rook); // If a pawn has moved, destroy the rook to prevent castling
+                }
             }
         }
         attackablePieces.Clear(); // Clear the list of attackable pieces
@@ -103,6 +111,7 @@ public class ChessPiece : MonoBehaviour
 
     public void setNewCase()
     {
+        Case prevCase = currentCase; // Store the previous case
         currentCase.isOccupied = false; // Mark the current square as unoccupied
         currentCase.currentPiece = null; // Remove the current piece from the square
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit ray))
@@ -113,6 +122,14 @@ public class ChessPiece : MonoBehaviour
         currentCase.isOccupied = true; // Mark the square as occupied
         if (gameObject.GetComponent<PawnPiece>() != null)
         {
+            if (Vector3.Distance(prevCase.transform.position, currentCase.transform.position) > 1.2f)
+            {
+                gameObject.GetComponent<PawnPiece>().hasJustDoubleMoved = true; // Set the hasJustDoubleMoved flag to true for PawnPiece
+            }
+            else
+            {
+                gameObject.GetComponent<PawnPiece>().hasJustDoubleMoved = false; // Reset the hasJustDoubleMoved flag for PawnPiece
+            }
             gameObject.GetComponent<PawnPiece>().setMovedToTrue(); // Set the hasMoved flag to true for PawnPiece
             if (gameObject.GetComponent<PawnPiece>().getFacingNorth() && !currentCase.N || (!gameObject.GetComponent<PawnPiece>().getFacingNorth() && !currentCase.S))
             {
