@@ -110,7 +110,7 @@ public class PawnPiece : MonoBehaviour
                 attackablePieces.Add(currentCase.S.E.currentPiece);
             }
         }
-        gameState.SelectPiece(this.gameObject, availableMoves, attackablePieces, pawnPriseEnPassant);
+        gameState.SelectPieceAsync(this.gameObject, availableMoves, attackablePieces, pawnPriseEnPassant);
         
     }
     

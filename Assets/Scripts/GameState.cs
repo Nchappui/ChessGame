@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Cinemachine;
+using System.Threading.Tasks;
 //using Cinemachine;
 
 public class GameState : MonoBehaviour
@@ -62,28 +63,37 @@ public class GameState : MonoBehaviour
         return currentlySelectedPiece;
     }
 
-    public void SelectPiece(GameObject piece, List<Case> availableMoves, List<GameObject> attackablePieces, List<GameObject> rooksToCastle = null)
+    public async Task SelectPieceAsync(GameObject piece, List<Case> availableMoves, List<GameObject> attackablePieces, List<GameObject> rooksToCastle = null)
     {
+        // Exemple d'appel
+        StockfishClient stockfish = FindFirstObjectByType<StockfishClient>();
+        string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; // Position initiale
+        string move = await stockfish.GetBestMove(fen, 15);
+        Debug.Log("Coup proposé par Stockfish : " + move);
         if (piece.GetComponent<Outline>().OutlineColor == Color.red)
-            {
-                // If the piece is attackable, move it
+        {
+            // If the piece is attackable, move it
 
-                if (piece.GetComponent<KingPiece>() !=null){
-                    UIUtils UIutils = FindAnyObjectByType<UIUtils>().GetComponent<UIUtils>();
-                    if(piece.GetComponent<ChessPiece>().team == ChessPiece.Team.White){
-                        UIutils.ShowWinnerPanel(ChessPiece.Team.Black);
-                    } else {
-                        UIutils.ShowWinnerPanel(ChessPiece.Team.White);
-                        
-                    }
-                    fireWorks.Play();
-                    rotateCamera = true;
+            if (piece.GetComponent<KingPiece>() != null)
+            {
+                UIUtils UIutils = FindAnyObjectByType<UIUtils>().GetComponent<UIUtils>();
+                if (piece.GetComponent<ChessPiece>().team == ChessPiece.Team.White)
+                {
+                    UIutils.ShowWinnerPanel(ChessPiece.Team.Black);
                 }
-                piece.gameObject.SetActive(false);
-                Destroy(piece.gameObject);
-                MovePiece(piece.GetComponent<ChessPiece>().getCurrentCase().transform);
-                return;
+                else
+                {
+                    UIutils.ShowWinnerPanel(ChessPiece.Team.White);
+
+                }
+                fireWorks.Play();
+                rotateCamera = true;
             }
+            piece.gameObject.SetActive(false);
+            Destroy(piece.gameObject);
+            MovePiece(piece.GetComponent<ChessPiece>().getCurrentCase().transform);
+            return;
+        }
         if (piece.GetComponent<ChessPiece>().team == ChessPiece.Team.Black && isWhiteTurn || 
         piece.GetComponent<ChessPiece>().team == ChessPiece.Team.White && !isWhiteTurn)
         {
