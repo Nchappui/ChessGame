@@ -13,6 +13,7 @@ public class Timer : MonoBehaviour
     {
         gameState = FindAnyObjectByType<GameState>().GetComponent<GameState>();
         timerText = GetComponent<TMP_Text>();
+        timerDuration = gameState.timerDuration; // Get the timer duration from the GameState
         string timerMins = Mathf.Floor(timerDuration / 60).ToString("00"); // Calculate minutes and format to 2 digits
         string timerSecs = Mathf.Floor(timerDuration % 60).ToString("00"); // Calculate seconds and format to 2 digits
         string timerMillis = Mathf.Floor((timerDuration * 10) % 10).ToString("0"); // Calculate milliseconds and format to 1 digits

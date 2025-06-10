@@ -19,11 +19,30 @@ public class GameState : MonoBehaviour
 
     private bool rotateCamera = false;
 
+    public float timerDuration = 60f; // Default timer duration in seconds
+
     public GameObject lastMovedPiece = null;
+
+    public GameObject timerCanvas;
+
+    public bool hasTimerGame = false; // Flag to check if the game has a timer
+    public bool isAIGame = false; // Flag to check if the game is an AI game
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         SceneManager.LoadScene("UIScene", LoadSceneMode.Additive);
+        GameManager gm = GameManager.Instance;
+        isAIGame = gm.isAIGame; // Get the AI game flag from GameManager
+        hasTimerGame = gm.hasTimerGame; // Get the timer game flag from GameManager
+        timerDuration = gm.timerDuration; // Get the timer duration from GameManager
+        if (hasTimerGame)
+        {
+            timerCanvas.SetActive(true); // Activate the timer canvas if the game has a timer
+        }
+        else
+        {
+            timerCanvas.SetActive(false); // Deactivate the timer canvas if the game does not have a timer
+        }
     }
 
     // Update is called once per frame

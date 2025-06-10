@@ -9,7 +9,6 @@ public class MenuUtils : MonoBehaviour
     private bool isMultiplayerGame = true;
     private bool hasTimerGame = false;
     private float timerDuration = 60f; // Default timer duration in seconds
-                                       // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public List<Button> timerButtons;
 
@@ -32,6 +31,8 @@ public class MenuUtils : MonoBehaviour
         aiButton.GetComponent<Image>().color = Color.limeGreen; // Change AI button color to green
         multiplayerButton.GetComponent<Image>().color = Color.white; // Reset multiplayer button color to white
         isMultiplayerGame = !isAIGame; // If AI game is enabled, multiplayer is disabled
+        GameManager.Instance.isAIGame = isAIGame; // Update GameManager instance
+        GameManager.Instance.hasTimerGame = hasTimerGame; // Update GameManager instance
         Debug.Log("AI Game Mode: " + (isAIGame ? "Enabled" : "Disabled"));
     }
     public void SetMultiplayerGame()
@@ -40,6 +41,8 @@ public class MenuUtils : MonoBehaviour
         multiplayerButton.GetComponent<Image>().color = Color.limeGreen; // Change multiplayer button color to green
         aiButton.GetComponent<Image>().color = Color.white; // Reset AI button color to white
         isAIGame = !isMultiplayerGame; // If multiplayer game is enabled, AI game is disabled
+        GameManager.Instance.isAIGame = isAIGame; // Update GameManager instance
+        GameManager.Instance.hasTimerGame = hasTimerGame; // Update GameManager instance
         Debug.Log("Multiplayer Game Mode: " + (isMultiplayerGame ? "Enabled" : "Disabled"));
     }
     public void SetTimerGame()
@@ -79,6 +82,8 @@ public class MenuUtils : MonoBehaviour
             {
                 button.GetComponent<Image>().color = Color.white; // Reset timer buttons color to white
             }
+        GameManager.Instance.hasTimerGame = hasTimerGame; // Update GameManager instance
+        GameManager.Instance.timerDuration = timerDuration; // Update GameManager instance
         Debug.Log("Timer Game Mode: " + (hasTimerGame ? "Enabled" : "Disabled") + ", Duration: " + timerDuration + " seconds");
     }
     public void SetTimerDuration(float duration)
@@ -108,6 +113,7 @@ public class MenuUtils : MonoBehaviour
                 }
                 break;
         }
+        GameManager.Instance.timerDuration = timerDuration; // Update GameManager instance
         Debug.Log("Timer Duration set to: " + timerDuration + " seconds");
     }
 
