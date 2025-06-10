@@ -8,7 +8,7 @@ using Unity.Cinemachine;
 public class GameState : MonoBehaviour
 {
     private GameObject currentlySelectedPiece = null;
-    private bool isWhiteTurn = true; // Flag to check if it's white's turn
+    public bool isWhiteTurn = true; // Flag to check if it's white's turn
     public GameObject playerOneCamera;
     public GameObject playerTwoCamera;
 

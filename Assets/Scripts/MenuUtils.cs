@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuUtils : MonoBehaviour
 {
@@ -114,6 +115,7 @@ public class MenuUtils : MonoBehaviour
     {
         // Here you can implement the logic to start the game with the selected settings
         Debug.Log("Starting Game with Settings: AI Game - " + isAIGame + ", Multiplayer Game - " + isMultiplayerGame + ", Timer Game - " + hasTimerGame + ", Timer Duration - " + timerDuration + " seconds");
+        SceneManager.LoadScene("MainScene");
         // You can also load the game scene or initialize the game state here
     }
 }
