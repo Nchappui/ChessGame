@@ -18,7 +18,7 @@ public class GameState : MonoBehaviour
     private bool castleLeft = false;
     private bool castleRight = false;
 
-    private bool rotateCamera = false;
+    private bool gameFinished = false;
 
     public float timerDuration = 60f; // Default timer duration in seconds
 
@@ -26,8 +26,12 @@ public class GameState : MonoBehaviour
 
     public GameObject timerCanvas;
 
+    private StockfishClient stockfishClient;
+
     public bool hasTimerGame = false; // Flag to check if the game has a timer
     public bool isAIGame = false; // Flag to check if the game is an AI game
+
+    private FunctionHelper functionHelper;
 
     public int chosenSkillLevel = 20;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -35,13 +39,14 @@ public class GameState : MonoBehaviour
     {
         SceneManager.LoadScene("UIScene", LoadSceneMode.Additive);
         GameManager gm = GameManager.Instance;
+        functionHelper = GetComponent<FunctionHelper>();
         isAIGame = gm.isAIGame; // Get the AI game flag from GameManager
         hasTimerGame = gm.hasTimerGame; // Get the timer game flag from GameManager
         timerDuration = gm.timerDuration; // Get the timer duration from GameManager
         chosenSkillLevel = gm.chosenSkillLevel; // Get the chosen skill level from GameManager
         if (isAIGame)
         {
-            _ = LaunchStockfishAsync(); // Launch Stockfish if it's an AI game
+            LaunchStockfishAsync(); // Launch Stockfish if it's an AI game
         }
         if (hasTimerGame)
         {
@@ -56,7 +61,7 @@ public class GameState : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (rotateCamera)
+        if (gameFinished)
         {
             playerOneCamera.transform.RotateAround(new Vector3(3.5f,0.7f,3.5f), Vector3.up, 20 * Time.deltaTime); 
             playerTwoCamera.transform.RotateAround(new Vector3(3.5f,0.7f,3.5f), Vector3.up, 20 * Time.deltaTime);
@@ -70,19 +75,14 @@ public class GameState : MonoBehaviour
         return currentlySelectedPiece;
     }
     
-    public async Task LaunchStockfishAsync()
+    public void LaunchStockfishAsync()
     {
-        StockfishClient stockfish = FindFirstObjectByType<StockfishClient>();
-        if (stockfish == null)
+        stockfishClient = FindFirstObjectByType<StockfishClient>();
+        if (stockfishClient == null)
         {
             Debug.LogError("StockfishClient not found in the scene.");
             return;
         }
-
-        // Example of how to use Stockfish to get a move
-        string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; // Initial position
-        string move = await stockfish.GetBestMove(fen, 4, chosenSkillLevel);
-        Debug.Log("Proposed move by Stockfish: " + move);
     }
 
     public void selectPiece(GameObject piece, List<Case> availableMoves, List<GameObject> attackablePieces, List<GameObject> rooksToCastle = null)
@@ -104,7 +104,7 @@ public class GameState : MonoBehaviour
 
                 }
                 fireWorks.Play();
-                rotateCamera = true;
+                gameFinished = true;
             }
             piece.gameObject.SetActive(false);
             Destroy(piece.gameObject);
@@ -198,10 +198,15 @@ public class GameState : MonoBehaviour
             lastMovedPiece = currentlySelectedPiece; // Store the last moved piece
             currentlySelectedPiece = null;
             isWhiteTurn = !isWhiteTurn; // Switch turns after a move
-            if (!rotateCamera)
+            if (!gameFinished && !isAIGame)
             {
                 playerOneCamera.SetActive(isWhiteTurn); // Activate player one camera if it's white's turn
                 playerTwoCamera.SetActive(!isWhiteTurn); // Activate player two camera if it's black's turn
+            }
+            else if (!gameFinished && isAIGame && !isWhiteTurn)
+            {
+                functionHelper.ComputeFEN();
+                _ = functionHelper.GetStockfishMove(stockfishClient, chosenSkillLevel);
             }
 
         }

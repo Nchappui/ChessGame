@@ -10,6 +10,8 @@ public class ChessPiece : MonoBehaviour
     private List<GameObject> attackablePieces = new List<GameObject>(); // Array to hold the pieces that can be attacked
     private List<GameObject> rooksToCastle = new List<GameObject>(); // List to hold the rooks for castling
 
+    public char fenChar; // Character representing the piece in FEN notation
+
     public enum Team
     {
         White,
