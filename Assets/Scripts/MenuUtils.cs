@@ -13,6 +13,8 @@ public class MenuUtils : MonoBehaviour
     public List<Button> timerButtons;
 
     public Button aiButton;
+
+    public Slider aiSlider;
     public Button multiplayerButton;
     void Start()
     {
@@ -24,15 +26,21 @@ public class MenuUtils : MonoBehaviour
     {
 
     }
-
+    public void SetAIGameSkillLevel()
+    {
+        GameManager.Instance.chosenSkillLevel = (int)aiSlider.value; // Update GameManager instance with AI skill level
+        Debug.Log("AI Skill Level set to: " + (int)aiSlider.value);
+    }
     public void SetAIGame()
     {
         isAIGame = true;
         aiButton.GetComponent<Image>().color = Color.limeGreen; // Change AI button color to green
         multiplayerButton.GetComponent<Image>().color = Color.white; // Reset multiplayer button color to white
         isMultiplayerGame = !isAIGame; // If AI game is enabled, multiplayer is disabled
+        aiSlider.interactable = isAIGame; // Enable AI slider only if AI game is selected
         GameManager.Instance.isAIGame = isAIGame; // Update GameManager instance
         GameManager.Instance.hasTimerGame = hasTimerGame; // Update GameManager instance
+        GameManager.Instance.chosenSkillLevel = (int)aiSlider.value; // Update GameManager instance with AI skill level
         Debug.Log("AI Game Mode: " + (isAIGame ? "Enabled" : "Disabled"));
     }
     public void SetMultiplayerGame()
@@ -41,6 +49,7 @@ public class MenuUtils : MonoBehaviour
         multiplayerButton.GetComponent<Image>().color = Color.limeGreen; // Change multiplayer button color to green
         aiButton.GetComponent<Image>().color = Color.white; // Reset AI button color to white
         isAIGame = !isMultiplayerGame; // If multiplayer game is enabled, AI game is disabled
+        aiSlider.interactable = isAIGame; // Enable AI slider only if AI game is selected
         GameManager.Instance.isAIGame = isAIGame; // Update GameManager instance
         GameManager.Instance.hasTimerGame = hasTimerGame; // Update GameManager instance
         Debug.Log("Multiplayer Game Mode: " + (isMultiplayerGame ? "Enabled" : "Disabled"));
@@ -120,7 +129,7 @@ public class MenuUtils : MonoBehaviour
     public void startGame()
     {
         // Here you can implement the logic to start the game with the selected settings
-        Debug.Log("Starting Game with Settings: AI Game - " + isAIGame + ", Multiplayer Game - " + isMultiplayerGame + ", Timer Game - " + hasTimerGame + ", Timer Duration - " + timerDuration + " seconds");
+        Debug.Log("Starting Game with Settings: AI Game - " + isAIGame + ", Multiplayer Game - " + isMultiplayerGame + ", Timer Game - " + hasTimerGame + ", Timer Duration - " + timerDuration + " seconds, " + (int)aiSlider.value +" AI Skill Level");
         SceneManager.LoadScene("MainScene");
         // You can also load the game scene or initialize the game state here
     }

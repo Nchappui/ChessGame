@@ -36,9 +36,10 @@ public class StockfishClient : MonoBehaviour
         stockfishOutput = stockfishProcess.StandardOutput;
     }
 
-    public async Task<string> GetBestMove(string fen, int depth = 15)
+    public async Task<string> GetBestMove(string fen, int depth = 15, int skillLevel = 20)
     {
         stockfishInput.WriteLine("uci");
+        stockfishInput.WriteLine($"setoption name Skill Level value {skillLevel}");
         stockfishInput.WriteLine($"position fen {fen}");
         stockfishInput.WriteLine($"go depth {depth}");
 

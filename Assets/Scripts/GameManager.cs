@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
     public bool hasTimerGame = false; // Flag to check if the game has a timer
     public float timerDuration = 60f; // Default timer duration in seconds
 
+    public int chosenSkillLevel = 20; // Default skill level for AI
+
     public static GameManager Instance { get; private set; }
     private void Awake()
     {

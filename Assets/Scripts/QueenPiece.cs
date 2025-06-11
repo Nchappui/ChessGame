@@ -170,7 +170,7 @@ private Case currentCase; // Reference to the Case component of the current squa
                 break; // Stop traversing if a piece is found
             }
         }
-        gameState.SelectPieceAsync(this.gameObject, availableMoves, attackablePieces); // Call the SelectPiece method in GameState to handle the selection
+        gameState.selectPiece(this.gameObject, availableMoves, attackablePieces); // Call the SelectPiece method in GameState to handle the selection
     
     }
 }

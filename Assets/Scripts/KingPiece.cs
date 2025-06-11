@@ -118,7 +118,7 @@ public class KingPiece : MonoBehaviour
                 availableMoves.Add(currentCase.W.W); // Add the square to the available moves for castling
             }
         }
-        gameState.SelectPieceAsync(this.gameObject, availableMoves, attackablePieces, rooksToCastle); // Call the SelectPiece method in GameState to handle the selection
+        gameState.selectPiece(this.gameObject, availableMoves, attackablePieces, rooksToCastle); // Call the SelectPiece method in GameState to handle the selection
 
     }
 

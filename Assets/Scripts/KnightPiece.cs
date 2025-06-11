@@ -112,7 +112,7 @@ public class KnightPiece : MonoBehaviour
                 }
             }
         }
-        gameState.SelectPieceAsync(this.gameObject, availableMoves, attackablePieces); // Call the SelectPiece method in GameState to handle the selection
+        gameState.selectPiece(this.gameObject, availableMoves, attackablePieces); // Call the SelectPiece method in GameState to handle the selection
 
     }
 }

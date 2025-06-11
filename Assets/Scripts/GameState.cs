@@ -28,6 +28,8 @@ public class GameState : MonoBehaviour
 
     public bool hasTimerGame = false; // Flag to check if the game has a timer
     public bool isAIGame = false; // Flag to check if the game is an AI game
+
+    public int chosenSkillLevel = 20;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -36,6 +38,7 @@ public class GameState : MonoBehaviour
         isAIGame = gm.isAIGame; // Get the AI game flag from GameManager
         hasTimerGame = gm.hasTimerGame; // Get the timer game flag from GameManager
         timerDuration = gm.timerDuration; // Get the timer duration from GameManager
+        chosenSkillLevel = gm.chosenSkillLevel; // Get the chosen skill level from GameManager
         if (hasTimerGame)
         {
             timerCanvas.SetActive(true); // Activate the timer canvas if the game has a timer
@@ -62,14 +65,24 @@ public class GameState : MonoBehaviour
     {
         return currentlySelectedPiece;
     }
-
-    public async Task SelectPieceAsync(GameObject piece, List<Case> availableMoves, List<GameObject> attackablePieces, List<GameObject> rooksToCastle = null)
+    
+    public async Task LaunchStockfishAsync()
     {
-        // Exemple d'appel
         StockfishClient stockfish = FindFirstObjectByType<StockfishClient>();
-        string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; // Position initiale
-        string move = await stockfish.GetBestMove(fen, 15);
-        Debug.Log("Coup proposé par Stockfish : " + move);
+        if (stockfish == null)
+        {
+            Debug.LogError("StockfishClient not found in the scene.");
+            return;
+        }
+
+        // Example of how to use Stockfish to get a move
+        string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"; // Initial position
+        string move = await stockfish.GetBestMove(fen, 4, chosenSkillLevel);
+        Debug.Log("Proposed move by Stockfish: " + move);
+    }
+
+    public void selectPiece(GameObject piece, List<Case> availableMoves, List<GameObject> attackablePieces, List<GameObject> rooksToCastle = null)
+    {
         if (piece.GetComponent<Outline>().OutlineColor == Color.red)
         {
             // If the piece is attackable, move it
@@ -94,7 +107,7 @@ public class GameState : MonoBehaviour
             MovePiece(piece.GetComponent<ChessPiece>().getCurrentCase().transform);
             return;
         }
-        if (piece.GetComponent<ChessPiece>().team == ChessPiece.Team.Black && isWhiteTurn || 
+        if (piece.GetComponent<ChessPiece>().team == ChessPiece.Team.Black && isWhiteTurn ||
         piece.GetComponent<ChessPiece>().team == ChessPiece.Team.White && !isWhiteTurn)
         {
             return; // If it's white's turn and the piece is black, do nothing
@@ -109,12 +122,12 @@ public class GameState : MonoBehaviour
         }
         else
         {
-  
+
             currentlySelectedPiece.GetComponent<ChessPiece>().deselectPiece();
             currentlySelectedPiece = piece;
-            
+
         }
-        
+
         currentlySelectedPiece.GetComponent<ChessPiece>().selectPiece(availableMoves, attackablePieces, rooksToCastle);
     }
 
