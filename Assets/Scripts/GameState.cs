@@ -39,6 +39,10 @@ public class GameState : MonoBehaviour
         hasTimerGame = gm.hasTimerGame; // Get the timer game flag from GameManager
         timerDuration = gm.timerDuration; // Get the timer duration from GameManager
         chosenSkillLevel = gm.chosenSkillLevel; // Get the chosen skill level from GameManager
+        if (isAIGame)
+        {
+            _ = LaunchStockfishAsync(); // Launch Stockfish if it's an AI game
+        }
         if (hasTimerGame)
         {
             timerCanvas.SetActive(true); // Activate the timer canvas if the game has a timer

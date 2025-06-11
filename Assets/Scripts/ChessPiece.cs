@@ -24,7 +24,7 @@ public class ChessPiece : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit ray))
         {
             currentCase = ray.collider.gameObject.GetComponent<Case>(); // Get the Case component from the square
-            Debug.Log(ray.collider.gameObject + " is the square for " + gameObject.name);
+            //Debug.Log(ray.collider.gameObject + " is the square for " + gameObject.name);
             currentCase.currentPiece = gameObject; // Set the current piece on the square
             currentCase.isOccupied = true; // Mark the square as occupied
         }
